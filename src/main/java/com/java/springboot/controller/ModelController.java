@@ -15,5 +15,6 @@ public class ModelController {
         System.out.println("分支添加");
         System.out.println("余焕提交");
         System.out.println("在线跟新");
+        System.out.println("克隆下来的代码");
     }
 }
