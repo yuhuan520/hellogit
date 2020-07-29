@@ -10,5 +10,6 @@ package com.java.springboot.controller;
 public class ModelController {
     public static void main(String[] args) {
         System.out.println("更新1");
+        System.out.println("创建分支");
     }
 }
