@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	namespace：命名空间，其值为某一个dao层类的具体路径
+ -->
+<mapper namespace="com.java.springboot.mapper.DeptMapper">
+    <!--自定义的部门数据结果集-->
+    <resultMap id="deptMap" type="Dept">
+        <id property="deptno" column="deptno"/>
+        <result property="dname" column="dname"/>
+        <result property="loc" column="loc"/>
+    </resultMap>
+    <!--通过id查询部门信息-->
+<!--    <select id="selectByPrimaryKey" resultMap="deptMap">
+        select * from dept where id=#{id,jdbcType=INTEGER}
+    </select>-->
+    <!--查询所有部门信息-->
+    <select id="selectAllDept" resultMap="deptMap">
+        select * from dept
+    </select>
+</mapper>

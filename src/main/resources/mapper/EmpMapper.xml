@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java.springboot.mapper.EmpMapper">
+    <!-- 自定义的商品结果集 -->
+    <resultMap id="empMap" type="Emp">
+        <id property="empno" column="empno"/>
+        <result property="ename" column="ename"/>
+        <result property="job" column="job"/>
+        <result property="mgr" column="mgr"/>
+        <result property="sal" column="sal"/>
+        <result property="hiredate" column="hiredate"/>
+        <result property="comm" column="comm"/>
+    </resultMap>
+    <!--自定义的员工部门数据结果集
+         id="empAndDeptMap"自定义结果集名字
+          type="Emp"结果集类型
+          extends="empMap"继承empMap结果集
+    -->
+    <resultMap id="empAndDeptMap" type="Emp" extends="empMap">
+        <!--配置的为多对一  把查询出的部门数据装入到员工对象的部门对象属性中
+           property="dept"为Emp实体封装类中的部门对象属性名称
+           column="deptno"为数据库中员工部门表直接的关系字段
+           resultMap="com.java.mapper.DeptMapper.deptMap"
+           表示访问dept部门的数据结果集
+        -->
+        <association property="dept" column="deptno" resultMap="com.java.springboot.mapper.DeptMapper.deptMap"/>
+    </resultMap>
+<!--    <resultMap id="empAndDeptMap" type="com.java.springboot.entity.Emp" extends="empMap">-->
+<!--        <association property="dept" column="deptno" select="com.java.springBoot.mapper.DeptMapper.selectByPrimaryKey"/>-->
+<!--    </resultMap>-->
+    <!--分页查询员工信息-->
+<select id="selectPageEmp" resultMap="empAndDeptMap">
+    SELECT e.*,d.`dname`,d.`loc` FROM emp e INNER JOIN dept d ON e.`deptno`=d.`deptno` ORDER BY e.empno DESC
+</select>
+    <!--删除员工信息-->
+    <delete id="deleteEmpByEmpno">
+        delete from emp where empno=#{empno}
+    </delete>
+    <!--修改员工信息-->
+<update id="updEmpByEmpno">
+        update emp set ename=#{ename},job=#{job},sal=#{sal},hiredate=#{hiredate},mgr=#{mgr},comm=#{comm},deptno=#{dept.deptno} where empno=#{empno}
+</update>
+    <!--添加员工信息-->
+    <insert id="insEmp">
+        INSERT INTO emp SET ename=#{ename},job=#{job},sal=#{sal},hiredate=#{hiredate},mgr=#{mgr},comm=#{comm},deptno=#{dept.deptno}
+    </insert>
+</mapper>
